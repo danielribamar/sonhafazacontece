@@ -1,0 +1,19 @@
+﻿@model IPublishedContent
+<section id="@Model.Id">
+    <div class="@Model.GetPropertyValue("backgroundColor").ToString().ToLowerInvariant()-bg  section-padding">
+            <h3 class="parallax-title" style="color: black">
+                @Model.GetPropertyValue("contentTitle")
+            </h3>
+            <!-- /.parallax-title -->
+            <p class="parallax-description">
+                <iframe style="border: 2px solid #111111;"  width="70%" height="400" src="@Model.GetPropertyValue("contentUrl")" frameborder="0" allowfullscreen></iframe>
+            </p>
+            <!-- /.parallax-description -->
+            <!-- /.progress-bar-container -->
+        </div>
+        <!-- /.container -->
+    <!-- /.parallax-overlay -->
+    <!-- /.about-parallax -->
+</section>
+<!-- /#about-parallax -->
+<!-- About Parallax Section End -->

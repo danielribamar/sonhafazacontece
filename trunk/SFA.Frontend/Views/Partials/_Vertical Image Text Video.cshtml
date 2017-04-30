@@ -1,0 +1,264 @@
+﻿@using Sfa.Core.Helpers
+@model IPublishedContent
+@{
+    var items = ContentHelper.GetVerticalContentItems(Model).ToList();
+
+    if (!items.Any())
+    {
+        return;
+    }
+}
+
+<section id="@Model.Id">
+    <div class="about-section">
+        <div class="white-bg  section-padding">
+            <div class="top-angle"></div>
+            <div class="container">
+                <div class="section-head">
+                    <h2 class="section-title">Nós</h2>
+                    <p class="section-description">
+                        E sobre as infinitas maneiras de fazer acontecer a educação nos PALOP
+                    </p>
+                    <!-- /.section-description -->
+                </div>
+
+                @foreach (var item in items)
+                {
+                    string color = string.Empty;
+                    string align = string.Empty;
+                    if (item.IsEven())
+                    {
+                        color = "gray";
+                        align = "left";
+                    }
+                    else
+                    {
+                        color = "white";
+                        align = "right";
+                    }
+                    switch (item.NodeTypeAlias)
+                    {
+                        case "Video":
+                    <div class="@color-bg  section-padding">
+                        <div class="top-angle"></div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="section-content">
+                                    @if (align.Equals("left"))
+                                    {
+                                        <div class="media-content media-@align col-md-4 from-bottom delay-200">
+                                            <div class="meida-container video-container">
+                                                <iframe src="@item.GetPropertyValue("contentUrl")" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                            </div>
+                                            <!-- /.meida-container -->
+                                        </div>
+                                        <!-- /.media-content -->
+                                    }
+
+                                    <div class="content-box col-md-8 from-bottom delay-600">
+                                        <div class="hex content-icon-hex pull-@align">
+                                            <div class="content-icon">
+                                                <span aria-hidden="true" class="li_params"></span>
+                                            </div>
+                                        </div>
+                                        <h3 class="content-title">@item.GetPropertyValue("contentTitle")</h3>
+                                        <p>
+                                            <strong>@item.GetPropertyValue("contentText")</strong>
+                                        </p>
+                                        <p>
+                                            @item.GetPropertyValue("contentDescription")
+                                        </p>
+                                    </div>
+                                    <!-- /.content-box -->
+                                    @if (align.Equals("right"))
+                                    {
+                                        <div class="media-content media-@align col-md-4 from-bottom delay-200">
+                                            <div class="meida-container video-container">
+                                                <iframe src="@item.GetPropertyValue("contentUrl")" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                            </div>
+                                            <!-- /.meida-container -->
+                                        </div>
+                                        <!-- /.media-content -->
+                                    }
+
+                                </div>
+                                <!-- /.section-content -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.container -->
+
+                        <div class="bottom-angle">
+                        </div>
+                        <!-- /.bottom-angle -->
+
+                    </div>
+                    <!-- ./gray-bg -->
+                                    break;
+                        case "Text":
+                    <div class="@color-bg  section-padding" >
+                        <div class="top-angle">
+                        </div>
+                        <!-- /.top-angle -->
+                        <div class="container">
+
+                            <!-- /.section-head -->
+
+                            <div class="section-content ">
+                                <div class="row ">
+                                    <div class="content-box col-md-8 from-bottom delay-200">
+                                        <div class="hex content-icon-hex pull-@align">
+                                            <div class="content-icon">
+                                                <span aria-hidden="true" class="li_bulb"></span>
+                                            </div>
+                                        </div>
+                                        <!-- /.content-icon-hex -->
+                                        <h3 class="content-title">@item.GetPropertyValue("contentTitle")</h3>
+                                        <p>
+                                            <strong>@item.GetPropertyValue("contentText")</strong>
+                                        </p>
+                                        <p>
+                                            @item.GetPropertyValue("contentDescription")
+                                        </p>
+                                    </div>
+                                    <!-- /.content-box -->
+
+                                </div>
+                                <!-- row -->
+                            </div>
+                            <!-- /.section-content -->
+                        </div>
+                        <!-- /.container -->
+                    </div>
+                    <!-- /.white-bg -->
+                                    break;
+                        case "ImageSlider":
+                                    var images = ContentHelper.GetImagesUrlFromSlider(item, "contentImages").ToList();
+                                    if (!images.Any())
+                                    {
+                                        break;
+                                    }
+                    <div class="@color-bg  section-padding">
+                        <div class="top-angle"></div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="section-content">
+                                    @if (align.Equals("left"))
+                                    {
+                                     
+                                        <div class="media-content media-@align col-md-4 from-bottom delay-600">
+                                            <div class="meida-container">
+                                                <div id="about-img-carousel" class="about-img-carousel carousel slide" data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        @for (int i = 1; i <= images.Count(); i++)
+                                                        {
+                                                            if (i == 1)
+                                                            {
+                                                            <li data-target="#about-img-carousel" data-slide-to="@i" class="active"></li>
+                                                            }
+                                                            else
+                                                            {
+                                                            <li data-target="#about-img-carousel" data-slide-to="@i"></li>
+                                                            }
+                                                        }
+                                                    </ol>
+                                                    <!-- /.carousel-indicators -->
+                                                    <div class="carousel-inner">
+                                                        @foreach (var image in images)
+                                                        {
+                                                            <div class="item @(image == images.First() ? "active" : "")">
+                                                                <img src="@image" alt="carousel image">
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <!-- /.carousel-inner -->
+                                                </div>
+                                                <!-- /#about-img-carousel -->
+                                            </div>
+
+                                            <!-- /.meida-container -->
+                                        </div>
+                                        <!-- /.media-content -->
+                                        <!-- /.media-content -->
+                                           
+                                    }
+                                    <div class="content-box col-md-8 from-bottom delay-600">
+                                        <div class="hex content-icon-hex pull-@align">
+                                            <div class="content-icon">
+                                                <span aria-hidden="true" class="li_params"></span>
+                                            </div>
+                                        </div>
+                                        <h3 class="content-title">@item.GetPropertyValue("contentTitle")</h3>
+                                        <p>
+                                            <strong>@item.GetPropertyValue("contentText")</strong>
+                                        </p>
+                                        <p>
+                                            @item.GetPropertyValue("contentDescription")
+                                        </p>
+                                    </div>
+                                    <!-- /.content-box -->
+                                    @if (align.Equals("right"))
+                                    {
+                                     
+                                        <div class="media-content media-@align col-md-4 from-bottom delay-600">
+                                            <div class="meida-container">
+                                                <div id="about-img-carousel" class="about-img-carousel carousel slide" data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        @for (int i = 1; i <= images.Count(); i++)
+                                                        {
+                                                            if (i == 1)
+                                                            {
+                                                            <li data-target="#about-img-carousel" data-slide-to="@i" class="active"></li>
+                                                            }
+                                                            else
+                                                            {
+                                                            <li data-target="#about-img-carousel" data-slide-to="@i"></li>
+                                                            }
+                                                        }
+                                                    </ol>
+                                                    <!-- /.carousel-indicators -->
+                                                    <div class="carousel-inner">
+                                                        @foreach (var image in images)
+                                                        {
+                                                            <div class="item @(image == images.First() ? "active" : "")">
+                                                                <img src="@image" alt="carousel image">
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <!-- /.carousel-inner -->
+                                                </div>
+                                                <!-- /#about-img-carousel -->
+                                            </div>
+
+                                            <!-- /.meida-container -->
+                                        </div>
+                                        <!-- /.media-content -->
+                                        <!-- /.media-content -->
+                                           
+                                    }
+                                </div>
+                                <!-- /.section-content -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.container -->
+
+                        <div class="bottom-angle">
+                        </div>
+                        <!-- /.bottom-angle -->
+
+                    </div>
+                                    break;
+
+                    }
+                }
+            </div>
+            <div class="bottom-angle">
+            </div>
+        </div>
+
+    </div>
+    <!-- /.about-section -->
+</section>
+<!-- /#about-->
+<!-- About Section End -->

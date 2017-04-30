@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var modules = Model.Content.Children.FirstOrDefault(p => p.DocumentTypeAlias.Equals("modules"));
+    var mainSlider = modules.Children.FirstOrDefault(p => p.DocumentTypeAlias.Equals("mainSlider"));
+}
+
+@Html.Partial("~/Views/Partials/Header.cshtml")
+
+@if (mainSlider != null)
+{
+    @Html.Partial("Main Slider", mainSlider);
+}
+
+
+@RenderBody()
+
+@Html.Partial("/Views/Partials/Newsletter_Modal.cshtml")
+<footer>
+    @Html.Partial("~/Views/Partials/Footer.cshtml")
+
+</footer>

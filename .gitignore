@@ -1,0 +1,14 @@
+/trunk/packages
+/trunk/.vs
+/trunk/SFA.Shop.Frontend/bin
+/trunk/SFA.Shop.Frontend/obj/Release
+/trunk/SFA.Frontend/obj/Release/Package/PackageTmp/Umbraco_Client/Modal
+/trunk/SFA.Frontend/obj
+/trunk/SFA.Frontend/bin
+/trunk/SFA.Core/obj
+/trunk/SFA.Core/bin
+/trunk/SFA.Frontend/App_Data/Logs
+/trunk/SFA.Frontend/App_Data/TEMP/ExamineIndexes/DESKTOP-E7NH0MM/External/Index
+/trunk/SFA.Frontend/App_Data
+/trunk/SFA.Core/App_Data
+/trunk/SFA.Shop.Frontend/App_Data

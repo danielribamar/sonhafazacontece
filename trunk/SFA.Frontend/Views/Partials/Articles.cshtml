@@ -1,0 +1,90 @@
+﻿@using System.Globalization
+@using System.ServiceModel.Configuration
+@using Newtonsoft.Json
+@using SFA.Core.Helpers
+@using umbraco.MacroEngines
+@using umbraco.NodeFactory
+@using Umbraco.Web.Models
+@model IPublishedContent
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+}
+<!--News Section-->
+<section id="@Model.Id">
+    <div class="news-section white-bg -bg  section-padding">
+        <div class="top-angle">
+        </div>
+        <!-- /.top-angle -->
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title">
+                    @Model.GetPropertyValue("title")
+                </h2>
+                <!-- /.section-title -->
+                <p class="section-description">
+                    @Html.Raw(library.RemoveFirstParagraphTag(Model.GetPropertyValue<string>("description")))
+                </p>
+            </div>
+            <!-- /.section-head -->
+
+            <div class="row">
+                <div class="news-container">
+                    @foreach (var article in Model.Children.Where(p => p.DocumentTypeAlias.Equals("genericItem")).OrderByDescending(p => p.SortOrder).Take(4))
+                    {
+                        var count = Model.Children.Where(p => p.DocumentTypeAlias.Equals("genericItem")).OrderByDescending(p => p.SortOrder).Take(4).Count();
+                        var percentage = 100 / count;
+
+                        var id = article.GetPropertyValue("image");
+                        var media = umbracoHelper.TypedMedia(id);
+                        var articleDate = article.GetPropertyValue<DateTime>("date");
+                        var hl = GenericHelper.GetHyperlink(article);
+                        <div class="news-item col-md-6 from-bottom delay-600" style="width:@percentage%;">
+
+                            <img class="news-item-image" src="@media.GetCropUrl(487, 263, imageCropMode: ImageCropMode.Crop, imageCropAnchor: ImageCropAnchor.Center)" alt="News Post Image">
+                            <article class="news-article">
+                                <div class="article-container">
+                                    <div class="post-meta">
+
+                                        @*<time datetime="@articleDate.Year-@articleDate.Month-@articleDate.Day">@articleDate.Day @articleDate.ToString("MMM", CultureInfo.CurrentCulture)'@articleDate.Year.ToString().Substring(articleDate.Year.ToString().Length - 2);</time>*@
+                                        <span class="name">
+                                            @article.GetPropertyValue("author")
+                                        </span>
+                                        @*   <span>
+                                                <a href="#">24 Comments</a>
+                                            </span>*@
+                                    </div>
+                                    <!-- /.post-meta -->
+                                    <div class="post-details">
+                                        <h3 class="content-title">@article.GetPropertyValue("title")</h3>
+                                        <p>
+                                            @Html.Raw(article.GetPropertyValue("description"))
+                                        </p>
+                                        <div>
+                                            <a target="@hl.Target" href="@hl.Url" class="btn custom-btn ">@hl.Caption</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.post-details -->
+                                </div>
+                                <!-- /.article-container -->
+                            </article>
+                            <!-- /.news-article -->
+                        </div>
+                    }
+                    <!-- /.news-item -->
+                    @if (Model.Children.Count(p => p.DocumentTypeAlias.Equals("genericItem")) > 4)
+                    {
+                        <div class="view-all">
+                            <a href="blog-page.html" class="btn custom-btn ">View All News</a>
+                        </div>
+                    }
+                </div>
+                <!-- /.news-container -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.news-section -->
+</section>
+<!-- /#news -->
+<!--News Section End-->

@@ -1,0 +1,47 @@
+﻿@model IPublishedContent
+<section id="@Model.Id">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6">
+                <div class="contact-form-container" style="padding-bottom:50px;padding-top:50px;text-align:center;">
+
+                    <form class="contact-form" id="contact-form" method="post">
+
+                        <div id="email_error" class="error">
+                            <img src="/Sources/images/email/error.png" alt="Error!">
+                            Email Inválido
+                        </div>
+                        <!-- /#email_error -->
+                        <div class="input-container li_mail">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nome" required>
+                            <button type="submit" class="btn custom-btn" id="send_newsletter">Subscrever</button>
+                        </div>
+
+                        <!-- /.input-container -->
+
+                        <div id="mail_success" class="success">
+                            <img src="/Sources/images/email/success.png" alt="Success!">
+                            Newsletter subscrita com sucesso, verifique o seu email.
+                        </div>
+                        <!-- /#mail_success -->
+
+                        <div id='mail_fail' class='error'>
+                            <img src="/Sources/images/email/error.png" alt="Error!">
+                            Ocurreu um erro no envio da mensagem, tenta novamente
+                        </div>
+                        <!-- /#mail_fail -->
+
+
+                    </form>
+                    <!-- /.contact-form -->
+                </div>
+                <!-- /.contact-form-container -->
+            </div>
+            <!-- /.col-md-6 -->
+        </div>
+    </div>
+</section>

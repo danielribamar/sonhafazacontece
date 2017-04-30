@@ -1,0 +1,42 @@
+﻿@using Umbraco.Web.Models
+@model IPublishedContent
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+
+    var id = Model.GetPropertyValue<int>("contentHeaderImage");
+
+}
+<div class="container blog-page-container">
+    <div class="row">
+        <div id="@Model.Id" class="col-md-12 blog-section">
+
+            <!-- Post Box-->
+            <div class="row post-box">
+                <div class="col-sm-12">
+                    <article class="post-content">
+                        @if (id != 0)
+                        {
+                            var media = umbracoHelper.TypedMedia(id);
+                            <figure class="featured-image">
+                                <img src="@media.GetCropUrl()" alt="featured image">
+                            </figure>
+                        }
+
+
+                        <h2 class="post-title">
+                            <a href="#">@Model.GetPropertyValue("contentTitle")</a>
+                        </h2>
+
+                        @Html.Raw(Model.GetPropertyValue("contentDescription"))
+                    </article> <!-- /.post-content -->
+                </div><!-- /.col-sm-10 -->
+            </div><!-- /#post-box --><!-- /.row -->
+            <!-- Post Box End -->
+            <hr>
+
+
+        </div><!-- /#blog-section -->
+
+
+    </div> <!-- /.row -->
+</div><!-- /.container -->

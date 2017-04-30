@@ -1,0 +1,63 @@
+﻿@using SFA.Core.Helpers
+@using Umbraco.Web.Models
+@using SFA.Core.Helpers
+@model IPublishedContent
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
+    var items = ContentHelper.GetMainSliderItems(Model).ToList();
+    var mediaId = Model.GetPropertyValue("backgroundImage");
+    var media = umbracoHelper.TypedMedia(mediaId);
+
+    var backgroundUrl = media.GetCropUrl(1920, 1080, imageCropMode: ImageCropMode.Max, imageCropAnchor: ImageCropAnchor.Center);
+
+    if (!items.Any())
+    {
+        return;
+    }
+}
+<!-- Top Slider -->
+<header id="myCarousel" class="carousel slide">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        @foreach (var item in items)
+        {
+            <li data-target="#myCarousel" data-slide-to="@item.SortOrder" class="@(item.Id == items.FirstOrDefault().Id?"active":"")"></li>
+        }
+    </ol>
+    <!-- Wrapper for Slides -->
+    <div class="carousel-inner">
+        @foreach (var item in items)
+        {
+            var image = umbracoHelper.TypedMedia(item.GetPropertyValue("image"));
+            var hl = GenericHelper.GetHyperlink(item);
+            <div class="item @(item.Id == items.FirstOrDefault().Id?"active":"")">
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('@image.Url');"></div>
+               
+                <div class="carousel-caption">
+                    <h1 class="thin-txt">
+                        @item.GetPropertyValue("title")
+                    </h1>
+
+                    <h3 class="bold-txt">
+                        @Html.Raw(item.GetPropertyValue("description"))
+                    </h3>
+
+                    @if (!string.IsNullOrEmpty(hl.Caption))
+                    {
+                        <p class="link">
+                            <a href="@hl.Url" target="@hl.Target" class="btn custom-btn ">@hl.Caption</a>
+                        </p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
+</header>

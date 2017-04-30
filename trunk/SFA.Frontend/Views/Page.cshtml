@@ -1,0 +1,68 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "MasterWithHeaderAndFooter.cshtml";
+    var modules = Model.Content.Children.FirstOrDefault(p => p.DocumentTypeAlias.Equals("modules"));
+}
+
+@foreach (var module in modules.Children)
+{
+    switch (module.DocumentTypeAlias)
+    {
+        case "text":
+            @Html.Partial("Text", module);
+            break;
+        @*case "mainSlider":
+            @Html.Partial("Main Slider", module);
+            break;*@
+
+        case "verticalImageVideoText":
+            @Html.Partial("Vertical Image Text Video", module)
+            break;
+
+        case "team":
+            @Html.Partial("Horizontal Image Text v1", module)
+            break;
+
+        case "nextEvent":
+            @Html.Partial("Next Event", module)
+            break;
+
+        case "blogSlider":
+            @Html.Partial("Image Text Slider", module)
+            break;
+        case "partners":
+            @Html.Partial("Vertical Images", module)
+            break;
+        case "testemonials":
+            @Html.Partial("Secondary Slider", module)
+            break;
+        case "news":
+            @Html.Partial("Articles", module)
+            break;
+
+        case "gallery":
+            @Html.Partial("Gallery", module)
+            break;
+        case "donation":
+            @Html.Partial("Donation", module)
+            break;
+        case "contact":
+            @Html.Partial("Contact", module)
+            break;
+      case "newsletter":
+            @Html.Partial("Newsletter", module)
+            break;
+        case "newspaperEditions":
+            @Html.Partial("Newspaper Editions", module)
+            break;
+    }
+}
+
+<!-- Scroll to Top -->
+<div id="scroll-to-top">
+    <div class="hex scroll-top">
+        <span><i class="fa fa-chevron-up"></i></span>
+    </div>
+</div>
+<!-- /#scroll-to-top -->
+<!-- Scroll to Top End-->

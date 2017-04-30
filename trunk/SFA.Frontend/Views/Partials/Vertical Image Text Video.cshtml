@@ -1,0 +1,177 @@
+﻿@using SFA.Core.Helpers
+@model IPublishedContent
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var teamImages = Model.GetPropertyValue<string>("equipaImages");
+    var associaçãoLink = GenericHelper.GetHyperlink(Model);
+}
+
+<section id="@Model.Id">
+    <div class="about-section">
+        <div class="white-bg  section-padding">
+            <div class="top-angle">
+            </div>
+            <!-- /.top-angle -->
+            <div class="container">
+                <div class="section-head">
+                    <h2 class="section-title">@Model.GetPropertyValue("contentTitle")</h2>
+                    <p class="section-description">
+                        @Html.Raw(library.RemoveFirstParagraphTag(Model.GetPropertyValue<string>("contentDescription")))
+                    </p>
+                    <!-- /.section-description -->
+                </div>
+                <!-- /.section-head -->
+                
+                <div class="section-content">
+                    <div class="row">
+                        <div class="content-box col-md-8 from-bottom delay-200">
+                            <div class="hex content-icon-hex pull-left">
+                                <div class="content-icon">
+                                    <span aria-hidden="true" class="li_pen"></span>
+                                </div>
+                            </div>
+                            <!-- /.content-icon-hex -->
+                            <h3 class="content-title">@Model.GetPropertyValue("associacaoTitle")</h3>
+                            <p style="">
+                               @Model.GetPropertyValue("associacaoSubtitle")
+                            </p>
+                            <p>
+                                @Html.Raw(library.RemoveFirstParagraphTag(Model.GetPropertyValue<string>("associacaoDescription")))
+                            </p>
+                        </div>
+                        <!-- /.content-box -->
+
+                        <div class="media-content media-right col-md-4 from-bottom delay-600">
+                            <div class="meida-container video-container">
+                                <iframe src="https://player.vimeo.com/video/@Model.GetPropertyValue("associacaoVideoUrl")" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                <p><a href="https://vimeo.com/@Model.GetPropertyValue("associacaoVideoUrl")">Sonhamos e Fazemos acontecer!</a> from <a href="https://vimeo.com/sonhafazacontece">Sonha, Faz e Acontece</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+                            </div>
+                        </div>
+                        <!-- /.media-content -->
+                    </div>
+                    <!-- row -->
+                </div>
+            </div>
+            <!-- /.section-content -->
+            @if (!string.IsNullOrEmpty(associaçãoLink.Url))
+            {
+                <div style="width:10px;margin:0 auto;align-content:center">
+                    <a target="@associaçãoLink.Target" href="@associaçãoLink.Url" class="btn custom-btn">@associaçãoLink.Caption</a>
+                </div>
+            }
+            <!-- /.container -->
+        </div>
+        <!-- /.white-bg -->
+
+        <div class="gray-bg  section-padding">
+            <div class="top-angle"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="section-content">
+                        @if (!string.IsNullOrEmpty(teamImages))
+                        {
+                            var images = teamImages.Split(',');
+                            var counter = 0;
+                            <div class="media-content media-left col-md-4 from-bottom delay-200">
+
+                                <!-- /.meida-container -->
+                                <div class="meida-container">
+                                    <div id="about-img-carousel" class="about-img-carousel carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            @foreach (var imageId in images)
+                                            {
+                                                var media = umbracoHelper.TypedMedia(imageId);
+                                                <li data-target="#about-img-carousel" data-slide-to="@counter" @(imageId.Equals(images.First()) ? "class='active'" : "")></li>
+                                                counter++;
+                                            }
+                                            @*<li data-target="#about-img-carousel" data-slide-to="0" class="active"></li>
+                                                <li data-target="#about-img-carousel" data-slide-to="1"></li>
+                                                <li data-target="#about-img-carousel" data-slide-to="2"></li>*@
+                                        </ol>
+                                        <!-- /.carousel-indicators -->
+                                        <div class="carousel-inner">
+                                            @foreach (var imageId in images)
+                                            {
+                                                var media = umbracoHelper.TypedMedia(imageId);
+                                                 <!-- /.item -->
+                                                <div class="item @(imageId.Equals(images.First())?"active":"")">
+                                                    <img width="200" height="200" src="@media.Url" alt="carousel image">
+                                                </div>
+                                            }
+
+                                            <!-- /.item -->
+                                            @*<div class="item">
+                                                    <img width="200" height="200" src="/images/tests/3.jpg" alt="carousel image">
+                                                </div>
+                                                <div class="item">
+                                                    <img width="200" height="200" src="/images/tests/4.png" alt="carousel image">
+                                                </div>*@
+                                            <!-- /.item -->
+                                        </div>
+                                        <!-- /.carousel-inner -->
+                                    </div>
+                                    <!-- /#about-img-carousel -->
+                                </div>
+                                <!-- /.meida-container -->
+
+
+
+
+                            </div>
+
+                        }
+
+                        <!-- /.media-content -->
+
+                        <div class="content-box col-md-8 from-bottom delay-600">
+                            <div class="hex content-icon-hex pull-left">
+                                <div class="content-icon">
+                                    <span aria-hidden="true" class="li_lab"></span>
+                                </div>
+                            </div>
+                            <h3 class="content-title">@Model.GetPropertyValue("teamTitle")</h3>
+                            <p>
+                                @Html.Raw(library.RemoveFirstParagraphTag(Model.GetPropertyValue<string>("teamDescription")))
+
+                            </p>
+                            <p >
+                                <strong style="padding-left: 13px;">@Model.GetPropertyValue("teamSubtitle")</strong>
+                            </p>
+                            <br /><br /><br /><br />
+                            <div class="hex content-icon-hex pull-left">
+                                <div class="content-icon">
+                                    <span aria-hidden="true" class="li_world"></span>
+                                </div>
+                            </div>
+                            <h3 class="content-title">@Model.GetPropertyValue("missionTitle")</h3>
+                            
+                            <p>
+                                @Html.Raw(Model.GetPropertyValue("missionDescription"))
+                            </p>
+                            <p >
+                                <strong style="padding-left: 13px;">
+                                    @Model.GetPropertyValue("missionSubtitle")
+                                </strong>
+                            </p>
+                         
+                        </div>
+                        <!-- /.content-box -->
+                    </div>
+                    <!-- /.section-content -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container -->
+
+            <div class="bottom-angle">
+            </div>
+            <!-- /.bottom-angle -->
+
+        </div>
+        <!-- ./gray-bg -->
+
+    </div>
+    <!-- /.about-section -->
+</section>
+<!-- /#about-->
+<!-- About Section End -->

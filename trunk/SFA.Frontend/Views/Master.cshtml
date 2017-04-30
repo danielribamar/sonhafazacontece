@@ -1,0 +1,199 @@
+﻿@using umbraco.MacroEngines
+
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+    var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+    var image = umbracoHelper.TypedMedia(Model.Content.GetPropertyValue<string>("seoImage"));
+    var configNode = Model.Content.AncestorOrSelf(1);
+
+    var dateTime = new DateTime();
+    var currentNode = new DynamicNode(Model.Content.Id);
+    if (currentNode.DescendantsOrSelf().Any(p => p.NodeTypeAlias.Equals("nextEvent")))
+    {
+        var modules = currentNode.Children.FirstOrDefault(p => p.NodeTypeAlias.Equals("modules"));
+        if (modules != null)
+        {
+            var nextEvent = modules.Children.Any(p => p.NodeTypeAlias.Equals("nextEvent"))
+                    ? modules.Children.FirstOrDefault(p => p.NodeTypeAlias.Equals("nextEvent"))
+                    : null;
+            dateTime = nextEvent.GetProperty<DateTime>("contentDateAndTime");
+        }
+
+    }
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SFA || @Model.Content.Name</title>
+    <meta name="author" content="SFA" />
+    <meta name="description" content="@Model.Content.GetPropertyValue("seoDescription")" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="@configNode.GetPropertyValue("configWebsiteName")" />
+    <meta property="og:title" content="@Model.Content.GetPropertyValue("seoTitle")" />
+    <meta property="og:url" content="http://sonhafazacontece.org" />
+    @if (image != null)
+    {
+        <meta property="og:image" content="@string.Format("http://sonhafazacontece.org{0}", image.Url)" />
+    }
+    <meta property="og:description" content="@Model.Content.GetPropertyValue("seoDescription")" />
+
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+    <!-- Modernizr js -->
+    <script src="/Sources/js/modernizr-2.8.0.min.js"></script>
+
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="~/Sources/css/full-slider.css" rel="stylesheet" />
+    <!-- icon fonts font Awesome -->
+    <link href="/Sources/css/font-awesome.min.css" rel="stylesheet">
+    <!-- icon fonts linecons -->
+    <link href="/Sources/css/linecons-font-style.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link href="/Sources/css/style.css" rel="stylesheet">
+
+    <!-- Responsive Styles -->
+    <link href="/Sources/css/responsive.css" rel="stylesheet">
+
+    <!-- Important owl stylesheet -->
+    <link rel="stylesheet" href="/Sources/css/owl.carousel.css">
+
+    <!-- Important prettyPhoto stylesheet -->
+    <link rel="stylesheet" href="/Sources/css/prettyPhoto.css">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/Sources/images/logo-sfa-icon.png">
+</head>
+<body>
+
+    @RenderBody()
+</body>
+
+</html>
+<!-- Include jquery.min.js plugin -->
+<script src="/Sources/js/jquery-2.1.0.min.js"></script>
+@*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+<!-- Include email-validation.js Email Validator -->
+<script src="/Sources/js/email-validation.js"></script>
+<script src="/Sources/js/newsletter-validation.js"></script>
+
+
+<script src="/Sources/js/jquery.visible.min.js"></script>
+<script src="/Sources/js/jquery.nicescroll.min.js"></script>
+
+<!-- included plugins inside  plugins.js -->
+<script src="/Sources/js/plugins.js"></script>
+
+<!-- included plugins inside  plugins.js -->
+<script src="/Sources/js/jquery.parallax.js"></script>
+
+<!-- Include functions.js -->
+<script src="/Sources/js/functions.js"></script>
+
+<!-- Google Maps Script  -->
+<script src="http://maps.google.com/maps/api/js"></script>
+
+<!-- Gmap3.js For Static Maps -->
+<script src="/Sources/js/gmap3.js"></script>
+
+<script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+</script>
+
+<script type="text/javascript">
+    var d = '@dateTime.Day';
+    var m = '@dateTime.Month';
+    var y = '@dateTime.Year';
+    var h = '@dateTime.Hour';
+    var min = '@dateTime.Minute';
+    var s = '@dateTime.Second';
+
+
+    /*---------------------- Current Menu Item -------------------------*/
+    jQuery(document).ready(function ($) {
+        "use strict";
+
+        $('#main-menu #headernavigation').onePageNav({
+            currentClass: 'active',
+            changeHash: false,
+            scrollSpeed: 750,
+            scrollThreshold: 0.5,
+            scrollOffset: 60,
+            filter: '',
+            easing: 'swing'
+        });
+
+        $('#event_time_countdown').countDown({
+            targetDate: {
+                'day': d,
+                'month': m,
+                'year': y,
+                'hour': h,
+                'min': min,
+                'sec': s
+            },
+            omitWeeks: true
+        });
+
+        /*----------- Google Map - with support of gmaps.js ----------------*/
+        function isMobile() {
+            return ('ontouchstart' in document.documentElement);
+        }
+
+        function init_gmap() {
+            if (typeof google == 'undefined') return;
+            var options = {
+                center: [20.7436266, -9.1602037],
+                zoom: 3,
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                },
+                navigationControl: true,
+                scrollwheel: false,
+                streetViewControl: true
+            }
+
+            if (isMobile()) {
+                options.draggable = false;
+            }
+
+            $('#googleMaps').gmap3({
+                map: {
+                    options: options
+                },
+                marker: {
+                    values: [
+
+                        {
+                            latLng: [38.7436266, -9.1602037],
+                            options: {
+                                icon: '/Sources/images/mapicon.png'
+                            }
+                        },
+
+                        {
+                            latLng: [1.614569, 7.404970],
+                            options: {
+                                icon: '/Sources/images/mapicon.png'
+                            }
+                        },
+                    ]
+                }
+            });
+        }
+
+        init_gmap();
+
+    });
+
+
+</script>

@@ -1,0 +1,105 @@
+﻿@using System.Globalization
+@using System.ServiceModel.Configuration
+@using Newtonsoft.Json
+@using SFA.Core.Helpers
+@using umbraco.MacroEngines
+@using umbraco.NodeFactory
+@using Umbraco.Web.Models
+@model IPublishedContent
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var tags = ContentHelper.GetTags(Model).ToList();
+}
+<!-- Gallery Section -->
+<section id="@Model.Id">
+    <div class="gallery-section@(Model.GetPropertyValue("backgroundColor") != null ? Model.GetPropertyValue("backgroundColor").ToString().ToLowerInvariant() : "white")-bg -bg  section-padding">
+        <div class="top-angle">
+        </div>
+        <!-- /.top-angle -->
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title">
+                    @Model.GetPropertyValue("title")
+                </h2>
+                <!-- /.section-title -->
+                <p class="section-description">
+
+                    @Html.Raw(library.RemoveFirstParagraphTag(Model.GetPropertyValue<string>("description")))
+                </p>
+            </div>
+            <!-- /.section-head -->
+
+            <div id="gallery-container" class="gallery-container">
+                @if (tags.Any())
+            {
+
+                    <div class="galleryFilter">
+                        <a href="#" data-filter="" class="current">All</a>
+                        @foreach (var tag in tags)
+                        {
+                            <a href="#" data-filter=".@tag">@tag</a>
+                        }
+                        @*  <a href="#" data-filter=".cat-2">Nature</a>
+                            <a href="#" data-filter=".cat-3">Wildlife</a>
+                            <a href="#" data-filter=".cat-4">Video</a>
+                            <a href="#" data-filter=".cat-5">Children</a>*@
+                    </div>
+                    <!-- /.galleryFilter -->
+
+                }
+                <div class="gallery-item element-from-bottom">
+                    @foreach (var image in Model.Children.Where(p => p.DocumentTypeAlias.Equals("genericItem")))
+                    {
+                        var id = image.GetPropertyValue("image");
+                        var media = umbracoHelper.TypedMedia(id);
+                        var hl = GenericHelper.GetHyperlink(image);
+
+                        <a href="@(hl!=null?hl.Url:string.Empty)" target="@(hl!=null?hl.Target:string.Empty)">
+                            <figure class="item @(image.HasValue("tags")?image.GetPropertyValue("tags").ToString().Replace(',', ' '):"")">
+                                <img src="@media.GetCropUrl(305, 210, imageCropMode: ImageCropMode.Crop, imageCropAnchor: ImageCropAnchor.Center)" alt="Item 3">
+                                @if (hl != null && string.IsNullOrEmpty(hl.Url))
+                                {
+                                    <div class="item-link">
+                                        <a class="link-hex" href="@media.Url" data-rel="prettyPhoto">
+                                            <span>
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+                                }
+                                <!-- /.item-link -->
+                                @if (!string.IsNullOrEmpty(image.GetPropertyValue<string>("title")) || !string.IsNullOrEmpty(image.GetPropertyValue<string>("subtitle")))
+                                {
+                                    <figcaption class="item-description">
+                                        @if (image.GetPropertyValue("title") != null)
+                                        {
+                                            <h4 class="item-title">
+                                                @image.GetPropertyValue("title")
+                                            </h4>
+                                        }
+
+                                        <!-- /.item-title -->
+                                        @if (image.GetPropertyValue("description") != null)
+                                        {
+                                            <p class="gallery-item-description">
+                                                @Html.Raw(image.GetPropertyValue("description"))
+                                            </p>
+                                        }
+
+                                        <!-- /.gallery-item-description -->
+                                    </figcaption>
+                                }
+                            </figure>
+                        </a>
+                    }
+                </div>
+                <!-- /.gallery-item -->
+            </div>
+            <!-- /gallery-container -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.gallery-section -->
+</section>
+<!-- /#gallery -->
+<!-- Gallery Section End -->

@@ -1,0 +1,48 @@
+﻿@using umbraco.MacroEngines
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var currentNode = new DynamicNode(Model.Content.Id);
+    var configurationsNode = currentNode.AncestorOrSelf(p => p.NodeTypeAlias.Equals("website"));
+}
+
+<!-- Footer Section -->
+<footer id="footer-section">
+    <div class="footer-section">
+        <div class="container">
+            <div class="footer-social-btn pull-right">
+        
+                @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("facebook")))
+                {
+                   <a href="@configurationsNode.GetPropertyValue("facebook")" target="_blank" class="facebook-btn"><i class="fa fa-facebook"></i></a>
+                }
+                @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("vimeo")))
+                {
+                   
+                        <a href="@configurationsNode.GetPropertyValue("vimeo")" target="_blank" class="vimeo-btn"><i class="fa fa-vimeo-square"></i></a>
+                  
+                }
+                @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("youtube")))
+                {
+                   
+                        <a href="@configurationsNode.GetPropertyValue("youtube")" target="_blank" class="youtube-btn"><i class="fa fa-instagram"></i></a>
+                  
+                }
+                @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("linkedin")))
+                {
+                    <a href="@configurationsNode.GetPropertyValue("linkedin")" target="_blank" class="facebook-btn"><i class="fa fa-linkedin"></i></a>
+                }
+            </div>
+            <!-- /.footer-social-btn -->
+            <div class="copyrights pull-left">
+                &copy; <a href="#">Sonha, Faz e Acontece</a> @DateTime.Now.Year, All Rights Reserved
+            </div>
+            <!-- /.copyrights -->
+
+
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.footer-section -->
+</footer>
+<!-- /#footer-section -->
+<!-- Footer Section End -->

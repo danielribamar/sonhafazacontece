@@ -1,0 +1,104 @@
+﻿@using umbraco.cms.businesslogic.web
+@using umbraco.MacroEngines
+@using System.Linq;
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
+    var currentNode = new DynamicNode(Model.Content.Id);
+    var page = currentNode.AncestorOrSelf(p => p.NodeTypeAlias.Equals("homepage") || p.NodeTypeAlias.Equals("page"));
+    var modules =new DynamicNode(page.GetChildNodesByType("modules").FirstOrDefault().Id);
+    var menuItems = modules.Descendants(p => p.GetPropertyValue("showInHeaderMenu") != null && p.GetPropertyValue("showInHeaderMenu").Equals("1")).OrderBy(p => p.SortOrder);
+    var mediaId = Model.Content.Ancestors().FirstOrDefault(p => p.DocumentTypeAlias.Equals("website")).GetPropertyValue("websiteLogo");
+    var media = umbracoHelper.TypedMedia(mediaId);
+    
+
+    var root = new DynamicNode(Umbraco.TypedContentAtRoot().First().Id);
+    var configurationsNode = currentNode.AncestorOrSelf(p => p.NodeTypeAlias.Equals("website"));
+    var languages = root.GetChildrenAsList.Items.Where(p => p.NodeTypeAlias.Equals("homepage")).ToList();
+    var homepage = Model.Content.AncestorOrSelf("homepage");
+}
+<div class="main-menu-container navbar-fixed-top">
+    <div id="main-menu" class="navbar navbar-default menu-bg-overlay" role="navigation">
+        <div class="container" style="max-width: 1900px; width: 90%;">
+
+            <div class="navbar-header">
+                <!-- responsive navigation -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                </button>
+                <!-- /.navbar-toggle -->
+                <!-- Logo -->
+                <h1>
+                    <a class="navbar-brand" href="/">
+                        @*<img class="logo" src="/images/logo-sfa.png" alt="Logo" rel="hoome">*@
+                        <img class="logo" src="@media.Url" alt="Logo" rel="hoome">
+                    </a>
+                    <!-- /.navbar-brand -->
+                </h1>
+            </div>
+            <!-- /.navbar-header -->
+
+            <nav class="collapse navbar-collapse">
+
+                @if(homepage.GetPropertyValue<bool>("showLanguages"))
+                {
+                    <ul class="nav navbar-nav pull-right">
+                        @foreach (var language in languages)
+                        {
+                            var niceUrl = language.NiceUrl;
+                            var caption = language.Name;
+
+                            if (Model.Content.AncestorOrSelf("homepage") != null && Model.Content.AncestorOrSelf("homepage").Id == language.Id)
+                            {
+                                <li><a href="@niceUrl" style="color: #F37021">@caption.ToUpperInvariant()</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@niceUrl" class="">@caption.ToUpperInvariant()</a></li>
+                            }
+                        }
+                    </ul>
+                }
+                    <ul class="nav navbar-nav pull-left">
+                        @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("facebook")))
+                        {
+                            <li><a href="@configurationsNode.GetPropertyValue("facebook")" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        }
+                        @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("vimeo")))
+                        {
+                            <li>
+                                <a href="@configurationsNode.GetPropertyValue("vimeo")" target="_blank"><i class="fa fa-vimeo-square"></i></a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("youtube")))
+                        {
+                            <li>
+                                <a href="@configurationsNode.GetPropertyValue("youtube")" target="_blank" class="youtube-btn"><i class="fa fa-instagram"></i></a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(configurationsNode.GetPropertyValue("linkedin")))
+                        {
+                            <li><a href="@configurationsNode.GetPropertyValue("linkedin")" target="_blank" class="facebook-btn"><i class="fa fa-linkedin"></i></a></li>
+                        }
+                    </ul>
+                    <!-- Main navigation -->
+                    <ul id="headernavigation" class="nav navbar-nav pull-right">
+                        @foreach (var item in menuItems.Where(p => !p.NodeTypeAlias.Equals("donation")))
+                        {
+                            <li><a href="#@item.Id">@(string.IsNullOrEmpty(item.GetPropertyValue("menuTitle")) ? item.Name : item.GetPropertyValue("menuTitle"))</a></li>
+                        }
+                        @if (menuItems.Any(p => p.NodeTypeAlias.Equals("donation")))
+                        {
+                            <li><a href="#@menuItems.FirstOrDefault(p => p.NodeTypeAlias.Equals("donation")).Id" class="donate">Donate <i class="fa fa-heart"></i></a></li>
+                        }
+                    </ul>
+                    <!-- /.nav .navbar-nav -->
+            </nav>
+
+            <!-- /.navbar-collapse  -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /#main-menu -->
+</div>

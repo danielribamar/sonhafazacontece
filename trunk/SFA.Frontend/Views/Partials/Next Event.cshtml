@@ -1,0 +1,93 @@
+﻿@using SFA.Core.Helpers
+@using Umbraco.Web.Models
+@model IPublishedContent
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
+    var mediaId = Model.GetPropertyValue("contentBackgroundImage");
+    var media = umbracoHelper.TypedMedia(mediaId);
+    var background = "/Sources/images/background/event-section-bg.jpg";
+
+    if (media != null)
+    {
+        background = media.GetCropUrl(1970, 1280, imageCropMode: ImageCropMode.Crop);
+    }
+}
+<!-- Next Event -->
+<section id="@Model.Id" style="background: url(@background) 50% 0 no-repeat fixed;">
+    <div class="next-event  parallax-style">
+        <div class="parallax-overlay section-padding">
+            <div class="container">
+                <h3 class="parallax-title">
+                    @Model.GetPropertyValue("contentTitle")
+                </h3>
+                <h4 style="text-align:center;">@Model.GetPropertyValue("contentSubtitle")</h4>
+                <!-- /.parallax-title -->
+                <div class="row">
+                    <div id="event_time_countdown" class="next-event-container">
+
+                        <div class="col-xs-6 col-sm-3 col-md-3 from-bottom delay-200">
+                            <div class="time-circle dash days_dash animated" data-animation="rollIn" data-animation-delay="300">
+                                <span class="time-number">
+                                    <span class="digit">0</span><span class="digit">0</span>
+                                </span>
+                                <span class="time-name">@umbracoHelper.GetDictionaryValue("Days")</span>
+                            </div>
+                            <!-- /.time-circle -->
+                        </div>
+                        <!-- /.col-md-3 -->
+
+                        <div class="col-xs-6 col-sm-3 col-md-3 from-bottom delay-600">
+                            <div class="time-circle dash hours_dash animated" data-animation="rollIn" data-animation-delay="600">
+                                <span class="time-number">
+                                    <span class="digit">0</span><span class="digit">0</span>
+                                </span>
+                                <span class="time-name">@umbracoHelper.GetDictionaryValue("Hours")</span>
+                            </div>
+                            <!-- /.time-circle -->
+                        </div>
+                        <!-- /.col-md-3 -->
+
+                        <div class="col-xs-6 col-sm-3 col-md-3 from-bottom delay-1000">
+                            <div class="time-circle dash minutes_dash animated" data-animation="rollIn" data-animation-delay="900">
+                                <span class="time-number">
+                                    <span class="digit">0</span><span class="digit">0</span>
+                                </span>
+                                <span class="time-name">@umbracoHelper.GetDictionaryValue("Minutes")</span>
+                            </div>
+                            <!-- /.time-circle -->
+                        </div>
+                        <!-- /.col-md-3 -->
+
+                        <div class="col-xs-6 col-sm-3 col-md-3 from-bottom delay-1400">
+                            <div class="time-circle dash seconds_dash animated" data-animation="rollIn" data-animation-delay="1200">
+                                <span class="time-number">
+                                    <span class="digit">0</span><span class="digit">0</span>
+                                </span>
+                                <span class="time-name">@umbracoHelper.GetDictionaryValue("Seconds")</span>
+                            </div>
+                            <!-- /.time-circle -->
+                        </div>
+                        <!-- /.col-md-3 -->
+
+                    </div>
+                    <!-- /.next-event-container -->
+
+                    <p class="event-btn-container">
+                        @{
+                            var dn = new umbraco.MacroEngines.DynamicNode(Model.Id);
+                            var hl = GenericHelper.GetHyperlink(dn);
+                        }
+
+                        <a class="btn custom-btn" target="@hl.Target" href="@hl.Url">@hl.Caption</a>
+                </p>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.bg-parallax-overlay -->
+</div>
+<!-- /.parallax-style -->
+</section>
+<!-- /#next-event -->
+<!-- Next Event End -->

@@ -1,0 +1,62 @@
+﻿@model IPublishedContent
+@{
+    var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+    var editions = umbracoHelper.TypedMedia(Model.GetPropertyValue("contentEditions")).Children.Select(p=> umbracoHelper.TypedMedia(p.Id)).OrderByDescending(p=>p.Name).ToList();
+}
+
+<section id="@Model.Id">
+    <div class="news-section white-bg -bg  section-padding">
+        <div class="top-angle">
+        </div>
+        <!-- /.top-angle -->
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title">
+                    @Model.GetPropertyValue("title")
+                </h2>
+                <!-- /.section-title -->
+                <p class="section-description">
+                    @Html.Raw(Model.GetPropertyValue("description"))
+                </p>
+            </div>
+            <!-- /.section-head -->
+
+            <div class="row" style="width:100%;">
+                <div class="news-container">
+                    @foreach (var edition in editions)
+                    {
+                        var bytes = Convert.ToInt64(edition.GetPropertyValue<string>("umbracoBytes"));
+                        var x = ((Math.Round(Convert.ToDecimal(@bytes) / 1048576, 1)).ToString() + "MB");
+                        <div class="news-item col-md-6 col-lg-3 col from-bottom delay-600">
+                            <a target="_blank" href="@edition.Url">
+                                <article class="news-article">
+                                    <div class="article-container">
+                                        <div class="post-meta">
+                                            <h3 class="name">
+                                                @System.Text.RegularExpressions.Regex.Match(edition.Name, @"\d+").Value
+                                            </h3>
+                                        </div>
+                                        <!-- /.post-meta -->
+                                        <div class="post-details" >
+                                            <img src="~/Sources/images/news1.png" style="width:150%;"  />
+                                            <p>@edition.Name (@x)</p>
+
+                                        </div>
+                                        <!-- /.post-details -->
+                                    </div>
+                                    <!-- /.article-container -->
+                                </article>
+                            </a>
+                            <!-- /.news-article -->
+                        </div>
+                    }
+                    <!-- /.news-item -->
+                </div>
+                <!-- /.news-container -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.news-section -->
+</section>

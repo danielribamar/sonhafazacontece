@@ -1,0 +1,72 @@
+﻿@using Umbraco.Web.Models
+@model IPublishedContent
+@{
+    var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+    var testemonials = Model.Children.Where(p => p.DocumentTypeAlias.Equals("genericItem")).ToList();
+    var backgroundImage = Model.GetPropertyValue("backgroundImage");
+    var backgroundImageMedia = umbracoHelper.TypedMedia(backgroundImage);
+    int counter = 0;
+}
+
+@if (testemonials.Any())
+{
+    <!--Testimonial Section-->
+    <section id="@Model.Id" style="background: url(@backgroundImageMedia.GetCropUrl(1920, 1080, imageCropMode: ImageCropMode.Stretch)) 50% 0 no-repeat fixed;">
+        <div class="testimonial-section parallax-style">
+            <div class="parallax-overlay section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="testimonial-carousel" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    @foreach (var item in testemonials)
+                                    {
+                                        <li data-target="#testimonial-carousel" data-slide-to="@counter" class="@(item.Equals(testemonials.FirstOrDefault()) ? "active" : "")"></li>
+                                        counter++;
+                                    }
+
+                                </ol>
+                                <!-- /.carousel-indicators -->
+                                <div class="carousel-inner">
+                                    @foreach (var item in testemonials)
+                                    {
+                                        var id = item.GetPropertyValue("image");
+                                        var media = umbracoHelper.TypedMedia(id);
+                                        <div class="item @(item.Equals(testemonials.FirstOrDefault()) ? "active" : "")">
+                                            <div class="testimonial-figure">
+
+                                                <h1 class="parallax-title author-name">@item.GetPropertyValue("author")
+                                                </h1>
+                                                <!-- /.parallax-title -->
+                                                <p style="font-size:150%;" class="authors-review">
+                                                    @Html.Raw(library.RemoveFirstParagraphTag(item.GetPropertyValue<string>("description")))
+                                                </p>
+                                                <!-- /.authors-review -->
+                                                <div class="author-avatar">
+                                                    <img class="img-circle" src="@media.GetCropUrl(150,150,imageCropMode: ImageCropMode.Crop)" alt="carousel image">
+                                                </div>
+                                                <!-- /.author-avatar -->
+                                            </div>
+                                            <!-- /.testimonial-figure -->
+                                        </div>    
+                                    }
+
+                                    <
+                                </div>
+                                <!-- /.carousel-inner -->
+                            </div>
+                            <!-- /#testimonial-carousel -->
+                        </div>
+                        <!-- /.col-md-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container -->
+            </div>
+            <!-- /.parallax-overlay -->
+        </div>
+        <!-- /.testimonial-section -->
+    </section>
+    <!-- /#testimonial -->
+    <!--Testimonial Section End-->
+}

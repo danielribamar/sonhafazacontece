@@ -1,0 +1,131 @@
+﻿@using Newtonsoft.Json
+@using SFA.Core.Helpers
+@using umbraco.MacroEngines
+@using Umbraco.Web.Models
+@model IPublishedContent
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var links = GenericHelper.GetHyperlinkList(Model);
+}
+<!-- Team Section -->
+<section id="@Model.Id">
+    <div class="team-section">
+        <div class=white-bg section-padding">
+            <div class="top-angle">
+            </div>
+            <!-- /.top-angle -->
+            <div class="container" style="width: 90%">
+                <div class="section-head" style="margin-bottom:50px">
+                    <h2 class="section-title">@Model.GetPropertyValue("contentTitle")</h2>
+                    <p class="section-description">
+                    
+                            @Html.Raw(library.RemoveFirstParagraphTag(Model.GetPropertyValue<string>("contentDescription")))
+                      
+                    </p>
+
+                    <!-- /.section-description -->
+                </div>
+                <div style="text-align:center;padding-bottom:25px;">
+                    @foreach (var hl in links)
+                    {
+                        <a style="padding-bottom:10px" class="btn custom-btn" target="@hl.Target" href="@hl.Url">@hl.Caption</a>
+                    }
+                </div>
+                <!-- /.section-head -->
+
+                @if (Model.Children.Any(p => p.DocumentTypeAlias.Equals("person")))
+                {
+
+                    <div id="team-slider" class="owl-carousel owl-theme" style="width: 100%;padding-bottom:10px">
+
+                        @foreach (var person in Model.Children.Where(p => p.DocumentTypeAlias.Equals("person")))
+                        {
+                            var id = person.GetPropertyValue("contentPicture");
+                            var media = umbracoHelper.TypedMedia(id);
+
+                            <div class="item">
+
+
+
+                                <div class="team-member-box from-bottom delay-200">
+                                    <figure>
+                                        <img src="@media.GetCropUrl(270, 270, imageCropMode: ImageCropMode.Crop)" alt="tema-member">
+                                    </figure>
+                                    <h3 class="member-name">@person.GetPropertyValue("contentName")</h3>
+                                    <h4 class="member-designation">@person.GetPropertyValue("contentRole")</h4>
+                                    <p class="member-description">
+                                        @Html.Raw(person.GetPropertyValue("contentDescription"))
+                                    </p>
+                                    <!-- /.member-description -->
+                                    @if (person.Children.Any(p => p.DocumentTypeAlias.Equals("socialNetwork")))
+                                    {
+                                        <div class="social-buttons">
+                                            @foreach (var socialNetwork in person.Children.Where(p => p.DocumentTypeAlias.Equals("socialNetwork")))
+                                            {
+                                                var linkUrl = string.Empty;
+                                                var linkTarget = string.Empty;
+                                                foreach (var item in (IEnumerable<dynamic>)JsonConvert.DeserializeObject(socialNetwork.GetPropertyValue<string>("redirect")))
+                                                {
+
+                                                    linkUrl = (bool)item.isInternal ? new DynamicNode(item.link).Url : item.link;
+                                                    linkTarget = (bool)item.newWindow ? "_blank" : null;
+                                                }
+
+                                                var name = socialNetwork.GetPropertyValue("contentName").ToString();
+                                                switch (name)
+                                                {
+                                                    case "Facebook":
+                                                        <a href="@linkUrl" target="@linkTarget" class="facebook-btn"><i class="fa fa-facebook"></i></a>
+                                                        break;
+
+                                                    case "Twitter":
+                                                        <a href="@linkUrl" target="@linkTarget" class="twitter-btn"><i class="fa fa-twitter"></i></a>
+                                                        break;
+
+                                                    case "Google+":
+                                                        <a href="@linkUrl" target="@linkTarget" class="google-plus-btn"><i class="fa fa-google-plus"></i></a>
+                                                        break;
+
+                                                    case "Instagram":
+                                                        <a href="@linkUrl" target="@linkTarget" class="instagram-btn"><i class="fa fa-instagram"></i></a>
+                                                        break;
+
+                                                    case "LinkedIn":
+                                                        <a href="@linkUrl" target="@linkTarget" class="linkedin-btn"><i class="fa fa-linkedin"></i></a>
+                                                        break;
+                                                }
+
+
+                                            }
+                                        </div>
+                                        <!-- /.social-buttons -->
+                                    }
+
+                                </div>
+                                <!-- /.team-member-box -->
+
+                            </div>
+                            <!-- /.item -->
+                        }
+
+                    </div>
+                    <!-- /#team-slider -->
+                    <div class="about-parallax parallax-style">
+
+                        <br /><br /><br />
+                    </div>
+
+
+                }
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- ./white-bg -->
+
+
+    </div>
+    <!-- /.team-section -->
+
+</section>
+<!-- /#team-->
+<!-- Team Section End -->

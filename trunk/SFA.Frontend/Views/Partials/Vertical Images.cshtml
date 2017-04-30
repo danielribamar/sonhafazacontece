@@ -1,0 +1,60 @@
+﻿@using Umbraco.Web.Models
+@model IPublishedContent
+@{
+    var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+    var partners = Model.Children.Where(p => p.DocumentTypeAlias.Equals("genericItem")).ToList();
+
+    var backgroundImage = Model.GetPropertyValue("backgroundImage");
+    var backgroundImageMedia = umbracoHelper.TypedMedia(backgroundImage);
+}
+@if (partners.Any())
+{
+    <!-- Clients Section -->
+    <section id="@Model.Id" style="background: url(@backgroundImageMedia.GetCropUrl(1920, 1080, imageCropMode: ImageCropMode.Crop)) 50% 0 no-repeat fixed;">
+        <div class="clients-section parallax-style">
+            <div class="parallax-overlay dark-overlay section-padding">
+                <div class="container" style="width:100%">
+                    <div class="section-head">
+                        <h3 class="parallax-title">
+                            @Model.GetPropertyValue("title")
+                        </h3>
+                    </div>
+                    <!-- /.section-head -->
+
+                    <div class="row">
+                        <div class="clients-logo" style="text-align:center;">
+                            @foreach (var partner in partners)
+                            {
+                                var id = partner.GetPropertyValue("image");
+                                var media = umbracoHelper.TypedMedia(id);
+
+                                <img style="width:20%" class="partners" src="@media.Url()" alt="Clients Logo">
+
+                            }
+
+                        </div>
+                    </div>
+                    <!-- /.low -->
+                </div>
+                <!-- /.container -->
+            </div>
+            <!-- /.parallax-overlay -->
+        </div>
+        <!-- /.clients-section -->
+    </section>
+
+    <!-- /#clients -->
+    <!-- Clients Section End -->
+
+}
+<style>
+    .partners {
+        max-width: 30% !important;
+        height: auto !important;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin: auto;
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>

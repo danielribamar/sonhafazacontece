@@ -1,0 +1,124 @@
+﻿@model IPublishedContent
+<!-- Contact Section -->
+@{
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(UmbracoContext.Current);
+}
+<section id="@Model.Id" style="">
+    <div class="contact-section  section-padding">
+        <div class="top-angle">
+        </div>
+        <!-- /.top-angle -->
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title">
+                    @Model.GetPropertyValue("title")
+                </h2>
+                <p class="section-description">
+                    @Model.GetPropertyValue("subtitle")
+                </p>
+            </div>
+            <!-- /.section-head -->
+        </div>
+        <!-- /.container -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contact-form-container">
+
+
+
+                        <h3 class="content-title">
+                            @umbracoHelper.GetDictionaryValue("Leave us a Message")
+                        </h3>
+
+                        <form class="contact-form" id="contact-form" action="/api/Contacts/Send/" method="post">
+                            <div id="name_error" class="error">
+                                <img src="/images/email/error.png" alt="Error!">
+                                @umbracoHelper.GetDictionaryValue("Name")
+                            </div>
+                            <!-- /#name_error -->
+                            <div class="input-container li_user">
+                                <input type="text" class="form-control" name="name" id="name" placeholder="@umbracoHelper.GetDictionaryValue("Name")" required>
+                            </div>
+                            <!-- /.input-container-->
+
+                            <div id="email_error" class="error">
+                                <img src="/images/email/error.png" alt="Error!">
+                                @umbracoHelper.GetDictionaryValue("InvalidEmail")
+                            </div>
+                            <!-- /#email_error -->
+                            <div class="input-container li_mail">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                            </div>
+                            <!-- /.input-container -->
+
+                            <div id="message_error" class="error">
+                                <img src="/images/email/error.png" alt="Error!">
+                                @umbracoHelper.GetDictionaryValue("Leave us a Message")
+                            </div>
+                            <!-- /#message_error -->
+                            <div class="input-container li_pen">
+                                <textarea class="form-control" id="message" name="message" cols="45" placeholder="@umbracoHelper.GetDictionaryValue("Message")" rows="6"></textarea>
+                            </div>
+                            <!-- /.input-container -->
+
+                            <div id="mail_success" class="success">
+                                <img src="/Sources/images/email/success.png" alt="Success!">
+                                @umbracoHelper.GetDictionaryValue("Success")
+                            </div>
+                            <!-- /#mail_success -->
+
+                            <div id='mail_fail' class='error'>
+                                <img src="/Sources/images/email/error.png" alt="Error!">
+                                @umbracoHelper.GetDictionaryValue("Error")
+                            </div>
+                            <!-- /#mail_fail -->
+
+                            <button type="submit" class="btn custom-btn newsletter" id="send_message">@umbracoHelper.GetDictionaryValue("Send")</button>
+                        </form>
+                        <!-- /.contact-form -->
+
+                    </div>
+                    <!-- /.contact-form-container -->
+                </div>
+                <!-- /.col-md-6 -->
+
+                <div class="col-md-6">
+                    <div class="contact-info">
+                        <h3 class="content-title">
+                            @umbracoHelper.GetDictionaryValue("Information")
+                        </h3>
+                        <p class="content-description">
+                            @Html.Raw(Model.GetPropertyValue("description"))
+                        </p>
+                        <address>
+                            <ul class="contact-address">
+                                <li class="fa-map-marker">
+                                    @Model.GetPropertyValue("address")
+                                </li>
+                                <li class="fa-phone">
+                                    @Model.GetPropertyValue("phoneNumber")
+                                </li>
+                                <li class="fa-envelope">
+                                    @Model.GetPropertyValue("email")
+                                </li>
+                            </ul>
+                            <!-- /.contact-address -->
+                        </address>
+                    </div>
+                    <!-- /.contact-info -->
+                </div>
+                <!-- /.col-md-6 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+        <div class="bottom-angle">
+        </div>
+        <!-- /.bottom-angle -->
+    </div>
+    <!-- /.contact-section -->
+</section>
+<!-- /#contact -->
+<!-- Contact Section End -->
