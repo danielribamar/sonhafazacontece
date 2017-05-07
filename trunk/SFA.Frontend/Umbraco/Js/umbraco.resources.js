@@ -1,6 +1,6 @@
 /*! umbraco
  * https://github.com/umbraco/umbraco-cms/
- * Copyright (c) 2016 Umbraco HQ;
+ * Copyright (c) 2017 Umbraco HQ;
  * Licensed 
  */
 
@@ -1389,7 +1389,6 @@ function dashboardResource($q, $http, umbRequestHelper) {
          *
          */
         getDashboard: function (section) {
-          
             return umbRequestHelper.resourcePromise(
                 $http.get(
                     umbRequestHelper.getApiUrl(
@@ -1397,7 +1396,53 @@ function dashboardResource($q, $http, umbRequestHelper) {
                         "GetDashboard",
                         [{ section: section }])),
                 'Failed to get dashboard ' + section);
+        },
+
+        /**
+        * @ngdoc method
+        * @name umbraco.resources.dashboardResource#getRemoteDashboardContent
+        * @methodOf umbraco.resources.dashboardResource
+        *
+        * @description
+        * Retrieves dashboard content from a remote source for a given section
+        * 
+        * @param {string} section Alias of section to retrieve dashboard content for
+        * @returns {Promise} resourcePromise object containing the user array.
+        *
+        */
+        getRemoteDashboardContent: function (section, baseurl) {
+
+            //build request values with optional params
+            var values = [{ section: section }];
+            if (baseurl)
+            {
+                values.push({ baseurl: baseurl });
+            }
+
+            return  umbRequestHelper.resourcePromise(
+                    $http.get(
+                    umbRequestHelper.getApiUrl(
+                        "dashboardApiBaseUrl",
+                        "GetRemoteDashboardContent",
+                        values)), "Failed to get dashboard content");
+        },
+
+        getRemoteDashboardCssUrl: function (section, baseurl) {
+
+            //build request values with optional params
+            var values = [{ section: section }];
+            if (baseurl) {
+                values.push({ baseurl: baseurl });
+            }
+
+            return umbRequestHelper.getApiUrl(
+                        "dashboardApiBaseUrl",
+                        "GetRemoteDashboardCss",
+                        values);
         }
+
+
+
     };
 }
 
@@ -2845,7 +2890,9 @@ function mediaResource($q, $http, umbDataFormatter, umbRequestHelper) {
           * Retrieves all media children with types used as folders.
           * Uses the convention of looking for media items with mediaTypes ending in
           * *Folder so will match "Folder", "bannerFolder", "secureFolder" etc,
-          *
+          * 
+          * NOTE: This will return a max of 500 folders, if more is required it needs to be paged
+          * 
           * ##usage
           * <pre>
           * mediaResource.getChildFolders(1234)
@@ -2863,14 +2910,15 @@ function mediaResource($q, $http, umbDataFormatter, umbRequestHelper) {
                 parentId = -1;
             }
 
+            //NOTE: This will return a max of 500 folders, if more is required it needs to be paged
             return umbRequestHelper.resourcePromise(
                   $http.get(
                         umbRequestHelper.getApiUrl(
                               "mediaApiBaseUrl",
                               "GetChildFolders",
-                              [
-                                    { id: parentId }
-                              ])),
+                            {
+                                id: parentId
+                            })),
                   'Failed to retrieve child folders for media item ' + parentId);
         },
 
