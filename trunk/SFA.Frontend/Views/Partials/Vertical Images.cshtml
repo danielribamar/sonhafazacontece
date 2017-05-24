@@ -2,7 +2,7 @@
 @model IPublishedContent
 @{
     var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
-    var partners = Model.Children.Where(p => p.DocumentTypeAlias.Equals("genericItem")).ToList();
+    var partners = Model.Children.Where(p => p.DocumentTypeAlias.Equals("partner")).ToList();
 
     var backgroundImage = Model.GetPropertyValue("backgroundImage");
     var backgroundImageMedia = umbracoHelper.TypedMedia(backgroundImage);
@@ -27,9 +27,11 @@
                             {
                                 var id = partner.GetPropertyValue("image");
                                 var media = umbracoHelper.TypedMedia(id);
-
-                                <img style="width:20%" class="partners" src="@media.Url()" alt="Clients Logo">
-
+                                var redirect = SFA.Core.Helpers.GenericHelper.GetHyperlink(partner);
+                                <a href="@redirect.Url" target="@redirect.Target">
+                                    <img style="width:15%" class="partners" src="@media.GetCropUrl()" alt="Clients Logo">
+                                </a>
+                                
                             }
 
                         </div>

@@ -3,7 +3,7 @@ $(document).ready(function () {
     setTimeout(function () {
         console.log('launch');
         $("#launch_modal").click();
-    }, 10000);
+    }, 30000);
 
     $('#send_newsletter').click(function (e) {
 

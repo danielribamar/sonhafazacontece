@@ -309,7 +309,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/08/2017 22:35:14</publishTime>
     </File>
     <File Include="bin/ClientDependency.Core.dll">
-      <publishTime>11/18/2016 14:19:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/ClientDependency.Core.Mvc.dll">
       <publishTime>07/07/2014 15:55:38</publishTime>
@@ -318,7 +318,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2014 15:55:38</publishTime>
     </File>
     <File Include="bin/ClientDependency.Core.pdb">
-      <publishTime>11/18/2016 14:19:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/cms.dll">
       <publishTime>05/08/2017 22:35:14</publishTime>
@@ -489,10 +489,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2017 00:27:28</publishTime>
     </File>
     <File Include="bin/SFA.Frontend.dll">
-      <publishTime>05/23/2017 00:30:27</publishTime>
+      <publishTime>05/23/2017 01:23:14</publishTime>
     </File>
     <File Include="bin/SFA.Frontend.pdb">
-      <publishTime>05/23/2017 00:30:27</publishTime>
+      <publishTime>05/23/2017 01:23:14</publishTime>
     </File>
     <File Include="bin/SQLCE4Umbraco.dll">
       <publishTime>05/08/2017 22:35:14</publishTime>
@@ -1939,6 +1939,87 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="packages.config">
       <publishTime>05/23/2017 00:15:38</publishTime>
+    </File>
+    <File Include="Sources/css/bootstrap-theme.min.css">
+      <publishTime>05/13/2017 10:10:30</publishTime>
+    </File>
+    <File Include="Sources/css/bootstrap.css">
+      <publishTime>05/13/2017 10:10:30</publishTime>
+    </File>
+    <File Include="Sources/css/bootstrap.min.css">
+      <publishTime>05/13/2017 10:10:30</publishTime>
+    </File>
+    <File Include="Sources/css/Detail.css">
+      <publishTime>05/13/2017 10:10:30</publishTime>
+    </File>
+    <File Include="Sources/css/font-awesome.min.css">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/css/full-slider.css">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/css/linecons-font-style.css">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/css/owl.carousel.css">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/css/prettyPhoto.css">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/css/responsive.css">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/css/style.css">
+      <publishTime>05/23/2017 01:34:54</publishTime>
+    </File>
+    <File Include="Sources/js/bootstrap.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/bootstrap.min.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/email-validation.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/functions.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/gmap3.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/jquery-2.1.0.min.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/jquery-2.1.0.min.map">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/jquery.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/jquery.nicescroll.min.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/jquery.parallax.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/jquery.smooth-scroll.min.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/jquery.visible.min.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/modernizr-2.8.0.min.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/newsletter-validation.js">
+      <publishTime>05/23/2017 00:42:07</publishTime>
+    </File>
+    <File Include="Sources/js/plugins.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
+    </File>
+    <File Include="Sources/js/retina.min.js">
+      <publishTime>05/13/2017 10:10:31</publishTime>
     </File>
     <File Include="Umbraco/Actions/delete.aspx">
       <publishTime>05/08/2017 22:35:22</publishTime>
@@ -10026,7 +10107,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/13/2017 10:10:43</publishTime>
     </File>
     <File Include="Views/Master.cshtml">
-      <publishTime>05/13/2017 10:10:43</publishTime>
+      <publishTime>05/23/2017 01:36:14</publishTime>
     </File>
     <File Include="Views/MasterWithHeaderAndFooter.cshtml">
       <publishTime>05/13/2017 10:10:43</publishTime>
@@ -10092,7 +10173,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/13/2017 10:10:44</publishTime>
     </File>
     <File Include="Views/Partials/Horizontal Image Text v1.cshtml">
-      <publishTime>05/13/2017 10:10:44</publishTime>
+      <publishTime>05/23/2017 01:22:02</publishTime>
     </File>
     <File Include="Views/Partials/Horizontal Image Text v2.cshtml">
       <publishTime>05/13/2017 10:10:44</publishTime>
@@ -10134,7 +10215,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/13/2017 10:10:44</publishTime>
     </File>
     <File Include="Views/Partials/Vertical Images.cshtml">
-      <publishTime>05/13/2017 10:10:44</publishTime>
+      <publishTime>05/23/2017 01:27:44</publishTime>
     </File>
     <File Include="Views/Partials/Video.cshtml">
       <publishTime>05/13/2017 10:10:44</publishTime>

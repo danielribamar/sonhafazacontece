@@ -8,7 +8,7 @@
     var links = GenericHelper.GetHyperlinkList(Model);
 }
 <!-- Team Section -->
-<section id="@Model.Id">
+<section id="@Model.Id" style="margin-top:50px;">
     <div class="team-section">
         <div class=white-bg section-padding">
             <div class="top-angle">
@@ -17,12 +17,12 @@
             <div class="container" style="width: 90%">
                 <div class="section-head" style="margin-bottom:50px">
                     <h2 class="section-title">@Model.GetPropertyValue("contentTitle")</h2>
-                    <p class="section-description">
-                    
+                    <div>
+                        <p class="section-description">
                             @Html.Raw(library.RemoveFirstParagraphTag(Model.GetPropertyValue<string>("contentDescription")))
-                      
-                    </p>
 
+                        </p>
+                    </div>
                     <!-- /.section-description -->
                 </div>
                 <div style="text-align:center;padding-bottom:25px;">

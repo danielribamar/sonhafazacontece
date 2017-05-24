@@ -32,8 +32,11 @@
             var hl = GenericHelper.GetHyperlink(item);
             <div class="item @(item.Id == items.FirstOrDefault().Id?"active":"")">
                 <!-- Set the first background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('@image.Url');"></div>
-               
+                @if (image != null)
+                {
+                    <div class="fill" style="background-image:url('@image.Url');"></div>
+                }
+             
                 <div class="carousel-caption">
                     <h1 class="thin-txt">
                         @item.GetPropertyValue("title")
