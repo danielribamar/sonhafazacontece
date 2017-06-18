@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using log4net;
+using Newtonsoft.Json;
 using SFA.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace SFA.Core.Helpers
 {
     public class GenericHelper
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(GenericHelper));
+
         public static string GetMonthShortName(int monthIndex)
         {
             System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
@@ -35,6 +38,7 @@ namespace SFA.Core.Helpers
             }
             catch (Exception exception)
             {
+                Logger.Error(exception);
                 return null;
             }
 
@@ -43,16 +47,24 @@ namespace SFA.Core.Helpers
         public static Hyperlink GetHyperlink(DynamicNode model)
         {
             var result = new Hyperlink();
-            if (string.IsNullOrEmpty(model.GetPropertyValue("redirect")))
+            try
             {
-                return result;
+                if (string.IsNullOrEmpty(model.GetPropertyValue("redirect")))
+                {
+                    return result;
+                }
+                foreach (var item in (IEnumerable<dynamic>)JsonConvert.DeserializeObject(model.GetPropertyValue("redirect")))
+                {
+                    result.Url = (bool)item.isInternal ? new DynamicNode(item["internal"]).Url : item.link;
+                    result.Target = (bool)item.newWindow ? "_blank" : null;
+                    result.Caption = item.caption;
+                }
             }
-            foreach (var item in (IEnumerable<dynamic>)JsonConvert.DeserializeObject(model.GetPropertyValue("redirect")))
+            catch (Exception exception)
             {
-                result.Url = (bool)item.isInternal ? new DynamicNode(item["internal"]).Url : item.link;
-                result.Target = (bool)item.newWindow ? "_blank" : null;
-                result.Caption = item.caption;
+                Logger.Error(exception);
             }
+            Logger.Info("Redirect links OK");
             return result;
         }
 
